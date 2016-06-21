@@ -1,5 +1,5 @@
 # Set up to get C++11
-CXXFLAGS += -std=c++11
+CXXFLAGS += -std=c++11 -Wall -pedantic
 
 PROTON_INSTALL_PREFIX := ~/Work/qpid-install
 PROTON_PKG_CONFIG := $(PROTON_INSTALL_PREFIX)/lib64/pkgconfig
@@ -15,6 +15,7 @@ LDFLAGS += $(PROTON_LDFLAGS) $(PROTON_RPATHFLAGS)
 # Just build everything as if it's a single file program
 SOURCES := $(wildcard *.cpp)
 EXES := $(patsubst %.cpp,%,$(SOURCES))
+
 all: $(EXES)
 
 clean: ;-rm -f $(EXES)

@@ -4,7 +4,7 @@
 #include <iostream>
 
 class ExampleHandler: public proton::messaging_handler {
-    std::string url_;
+    const std::string url_;
     
     void on_container_start(proton::container& c) override {
         c.connect(url_);
