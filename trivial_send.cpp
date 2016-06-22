@@ -6,15 +6,13 @@
 
 class MessageSender: public proton::messaging_handler {
     const proton::value message_;
-    proton::tracker tracker_;
 
     // A message can be sent
     void on_sendable(proton::sender& s) override {
-        if (!tracker_) {
-            auto msg = proton::message(message_);
-            tracker_ = s.send(proton::message(msg));
-            std::cout << "Message sent\n";
-        }
+        auto msg = proton::message(message_);
+        s.send(proton::message(msg));
+        s.close();
+        std::cout << "Message sent\n";
     }
 
     void on_tracker_accept(proton::tracker& t) override {
