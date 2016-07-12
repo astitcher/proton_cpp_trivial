@@ -1,0 +1,10 @@
+example_recv
+example_send
+trivial_connect
+trivial_container
+trivial_listen
+trivial_proton
+trivial_receive
+trivial_send
+.gdb_history
+.vscode/*
