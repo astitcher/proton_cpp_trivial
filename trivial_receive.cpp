@@ -1,5 +1,6 @@
-#include <proton/default_container.hpp>
+#include <proton/container.hpp>
 #include <proton/delivery.hpp>
+#include <proton/message.hpp>
 #include <proton/messaging_handler.hpp>
 
 #include <functional>
@@ -34,10 +35,10 @@ bool validate(proton::value&) {
 
 int main() {
   try {
-    MessageReceiver receiver{validate};
-    auto container = make_default_container(receiver);
-    container->open_receiver("127.0.0.1/examples");
-    container->run();
+    auto&& receiver = MessageReceiver{validate};
+    auto&& container = proton::container(receiver);
+    container.open_receiver("127.0.0.1/examples");
+    container.run();
   } catch (std::exception& e) {
     std::cout << "Caught error: " << e.what() << "\n";
   }

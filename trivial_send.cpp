@@ -1,5 +1,8 @@
-#include <proton/default_container.hpp>
+#include <proton/connection_options.hpp>
+#include <proton/container.hpp>
+#include <proton/message.hpp>
 #include <proton/messaging_handler.hpp>
+#include <proton/value.hpp>
 
 #include <iostream>
 #include <string>
@@ -31,10 +34,15 @@ class MessageSender: public proton::messaging_handler {
 
 int main() {
   try {
-    MessageSender sender{"Hello World"};
-    auto container = make_default_container(sender);
-    container->open_sender("127.0.0.1/examples");
-    container->run();
+    auto&& sender =  MessageSender{"Hello World"};
+    auto&& container = proton::container(sender);
+    auto&& copts = proton::connection_options()
+      .sasl_allow_insecure_mechs(true)
+      .user("user@proton")
+      .password("password")
+    ;
+    container.open_sender("127.0.0.1/examples", copts);
+    container.run();
   } catch (std::exception& e) {
     std::cout << "Caught error: " << e.what() << "\n";
   }

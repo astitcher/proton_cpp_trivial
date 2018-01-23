@@ -1,4 +1,4 @@
-#include <proton/default_container.hpp>
+#include <proton/container.hpp>
 #include <proton/messaging_handler.hpp>
 
 #include <string>
@@ -23,7 +23,7 @@ class ExampleHandler: public proton::messaging_handler {
 };
 
 int main() {
-    ExampleHandler h("localhost");
-    proton::default_container(h).run();
+    auto h = ExampleHandler{"localhost"};
+    proton::container(h).run();
 }
 

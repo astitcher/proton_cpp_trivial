@@ -1,4 +1,4 @@
-#include <proton/default_container.hpp>
+#include <proton/container.hpp>
 #include <proton/messaging_handler.hpp>
 
 #include <iostream>
@@ -19,8 +19,8 @@ class ExampleHandler: public proton::messaging_handler {
 };
 
 int main() {
-    ExampleHandler handler{};
-    auto container = make_default_container(handler, "job-processor-3");
-    container->run();
+    auto&& handler = ExampleHandler{};
+    auto&& container = proton::container(handler, "job-processor-3");
+    container.run();
 }
 

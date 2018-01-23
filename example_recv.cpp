@@ -1,6 +1,7 @@
 #include <proton/connection.hpp>
-#include <proton/default_container.hpp>
+#include <proton/container.hpp>
 #include <proton/delivery.hpp>
+#include <proton/message.hpp>
 #include <proton/messaging_handler.hpp>
 #include <proton/link.hpp>
 #include <proton/message_id.hpp>
@@ -47,7 +48,7 @@ int main(int argc, char **argv) {
     int message_count = 100;
     try {
         simple_recv recv(address, message_count);
-        proton::default_container(recv).run();
+        proton::container(recv).run();
 
         return 0;
     } catch (const std::exception& e) {

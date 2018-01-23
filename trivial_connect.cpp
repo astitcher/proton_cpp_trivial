@@ -1,4 +1,4 @@
-#include <proton/default_container.hpp>
+#include <proton/container.hpp>
 #include <proton/messaging_handler.hpp>
 
 #include <iostream>
@@ -20,8 +20,8 @@ class ExampleHandler: public proton::messaging_handler {
 
 int main() {
   try {
-    ExampleHandler h{"127.0.0.1:5672"};
-    proton::default_container(h).run();
+    auto&& h = ExampleHandler{"127.0.0.1:5672"};
+    proton::container(h).run();
   } catch (std::exception& e) {
     std::cout << "Caught error: " << e.what() << "\n";
   }

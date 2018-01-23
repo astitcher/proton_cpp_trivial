@@ -1,7 +1,9 @@
 #include <proton/connection.hpp>
-#include <proton/default_container.hpp>
+#include <proton/container.hpp>
+#include <proton/message.hpp>
 #include <proton/messaging_handler.hpp>
 #include <proton/tracker.hpp>
+#include <proton/types.hpp>
 #include <proton/value.hpp>
 
 #include <iostream>
@@ -20,6 +22,10 @@ class simple_send : public proton::messaging_handler {
 
     void on_container_start(proton::container &c) override {
         sender = c.open_sender(url);
+    }
+ 
+    void on_container_stop(proton::container& c) override {
+        std::cout << c.id() << ": stopped\n";
     }
 
     void on_sendable(proton::sender &s) override {
@@ -41,7 +47,7 @@ class simple_send : public proton::messaging_handler {
 
         if (confirmed == total) {
             std::cout << "all messages confirmed" << std::endl;
-            t.connection().close();
+            t.container().stop();
         }
     }
 
@@ -56,7 +62,7 @@ int main(int argc, char **argv) {
 
     try {
         simple_send send(address, message_count);
-        proton::default_container(send).run();
+        proton::container(send).run();
 
         return 0;
     } catch (const std::exception& e) {
